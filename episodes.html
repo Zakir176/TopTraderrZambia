@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Episodes | The Blue Candle Podcast</title>
+    <meta name="description" content="Browse all episodes of The Blue Candle Podcast — expert trading conversations, market analysis, and mentorship insights.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ===== Episodes Page Specific ===== */
+        .search-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .search-input-wrapper {
+            flex: 1;
+            min-width: 280px;
+            position: relative;
+        }
+
+        .search-input-wrapper i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .search-input-wrapper input {
+            width: 100%;
+            padding: 14px 18px 14px 48px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-family: inherit;
+            outline: none;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .search-input-wrapper input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-input-wrapper input:focus {
+            border-color: var(--blue-500);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+
+        .filter-tag {
+            padding: 8px 18px;
+            border-radius: 50px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .filter-tag:hover,
+        .filter-tag.active {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: var(--blue-500);
+            color: var(--blue-400);
+        }
+
+        .episodes-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .ep-grid-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            transition: var(--transition);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .ep-grid-card:hover {
+            background: rgba(20, 30, 70, 0.5);
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-4px);
+            box-shadow: var(--glow-blue);
+        }
+
+        .ep-grid-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .ep-grid-header .ep-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--cyan-400);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .ep-grid-header .ep-dur {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .ep-grid-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .ep-grid-card p {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .ep-grid-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ep-grid-tags {
+            display: flex;
+            gap: 6px;
+        }
+
+        .ep-grid-date {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .ep-grid-play {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            color: var(--blue-400);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .ep-grid-card:hover .ep-grid-play {
+            background: var(--accent-gradient);
+            color: white;
+            border-color: transparent;
+        }
+
+        .episodes-section {
+            padding: 40px 0 100px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .load-more {
+            text-align: center;
+            margin-top: 48px;
+        }
+
+        @media (max-width: 768px) {
+            .episodes-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+
+    <!-- Header -->
+    <header id="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><i class="fas fa-fire"></i></div>
+                <span class="logo-text">Blue<span>Candle</span></span>
+            </a>
+            <nav id="desktop-nav">
+                <a href="episodes.html" class="active-link">Episodes</a>
+                <a href="index.html#about">About</a>
+                <a href="pricing.html">Mentorship</a>
+                <a href="contact.html">Contact</a>
+                <a href="pricing.html" class="nav-cta">Start Learning</a>
+            </nav>
+            <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- Mobile Nav -->
+    <div class="nav-overlay" id="nav-overlay">
+        <button class="close-nav" id="close-nav" aria-label="Close menu"><i class="fas fa-times"></i></button>
+        <nav>
+            <a href="episodes.html" class="mobile-link">Episodes</a>
+            <a href="index.html#about" class="mobile-link">About</a>
+            <a href="pricing.html" class="mobile-link">Mentorship</a>
+            <a href="contact.html" class="mobile-link">Contact</a>
+            <a href="pricing.html" class="mobile-link nav-cta">Start Learning</a>
+        </nav>
+    </div>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <span class="section-label">All Episodes</span>
+            <h1 class="section-heading">Explore the <span class="gradient-text">Archive</span></h1>
+            <p class="section-desc">Every conversation, breakdown, and strategy session — all in one place. Search by topic or browse the full catalog.</p>
+        </div>
+    </section>
+
+    <!-- Episodes List -->
+    <section class="episodes-section">
+        <div class="container">
+            <div class="search-bar reveal">
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="episode-search" placeholder="Search episodes by title or topic...">
+                </div>
+            </div>
+
+            <div class="filter-tags reveal">
+                <button class="filter-tag active" data-filter="all">All Episodes</button>
+                <button class="filter-tag" data-filter="psychology">Psychology</button>
+                <button class="filter-tag" data-filter="technical">Technical Analysis</button>
+                <button class="filter-tag" data-filter="strategy">Strategy</button>
+                <button class="filter-tag" data-filter="beginner">Beginner</button>
+                <button class="filter-tag" data-filter="risk">Risk Management</button>
+                <button class="filter-tag" data-filter="interview">Interviews</button>
+            </div>
+
+            <div class="episodes-grid" id="episodes-grid">
+                <!-- Episodes populated by JS -->
+            </div>
+
+            <div class="load-more reveal">
+                <button class="btn btn-outline" id="load-more-btn">
+                    Load More Episodes <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo" style="margin-bottom: 4px;">
+                        <div class="logo-icon"><i class="fas fa-fire"></i></div>
+                        <span class="logo-text">Blue<span>Candle</span></span>
+                    </a>
+                    <p>Trading education, mentorship, and podcast conversations to help you master the financial markets.</p>
+                    <div class="footer-socials">
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Spotify"><i class="fab fa-spotify"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="episodes.html">Episodes</a></li>
+                        <li><a href="pricing.html">Mentorship</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Weekly Podcast</a></li>
+                        <li><a href="#">Trading Signals</a></li>
+                        <li><a href="#">1-on-1 Mentorship</a></li>
+                        <li><a href="#">Course Library</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="contact.html"><i class="fas fa-envelope" style="margin-right:8px;color:var(--blue-400)"></i>hello@bluecandle.co</a></li>
+                        <li><a href="#"><i class="fas fa-map-pin" style="margin-right:8px;color:var(--blue-400)"></i>Lusaka, Zambia</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 The Blue Candle Podcast. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Terms</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Risk Disclaimer</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="shared.js"></script>
+    <script>
+        const episodes = [
+            { num: 47, title: "The Psychology Behind Winning Trades", desc: "Why 90% of trading success is mental — and how to build the mindset of a consistently profitable trader in any market condition.", tags: ["psychology", "mindset"], duration: "48:32", date: "Apr 12, 2026", filter: "psychology" },
+            { num: 46, title: "Reading Price Action Like a Pro", desc: "Forget lagging indicators — learn to read naked charts and understand what the market is truly telling you with pure price action analysis.", tags: ["price-action", "technical"], duration: "55:18", date: "Apr 5, 2026", filter: "technical" },
+            { num: 45, title: "Risk Management: The Art of Survival", desc: "Position sizing, stop losses, and capital preservation — the unglamorous but essential foundation of every successful trading career.", tags: ["risk", "strategy"], duration: "42:07", date: "Mar 29, 2026", filter: "risk" },
+            { num: 44, title: "From Demo to Live: Making the Leap", desc: "The critical transition from paper trading to real money — how to handle emotions, risk, and expectations when your capital is on the line.", tags: ["beginner", "live-trading"], duration: "38:45", date: "Mar 22, 2026", filter: "beginner" },
+            { num: 43, title: "Supply and Demand Zones Decoded", desc: "How institutional order flow creates supply and demand zones — and how retail traders can use them to find high-probability entries.", tags: ["technical", "strategy"], duration: "51:14", date: "Mar 15, 2026", filter: "technical" },
+            { num: 42, title: "Interview: From $500 to Full-Time Trader", desc: "Guest trader Chipo Mulenga shares her journey from a small account to trading full-time, including the biggest mistakes she made along the way.", tags: ["interview", "journey"], duration: "1:02:33", date: "Mar 8, 2026", filter: "interview" },
+            { num: 41, title: "The Only 3 Candlestick Patterns You Need", desc: "Cut through the noise. These three patterns account for 80% of actionable signals — learn to spot and trade them with confidence.", tags: ["technical", "beginner"], duration: "36:20", date: "Mar 1, 2026", filter: "technical" },
+            { num: 40, title: "Building a Trading Journal That Works", desc: "Most traders skip journaling. The ones who succeed don't. Here's a practical framework for tracking your trades and improving systematically.", tags: ["strategy", "psychology"], duration: "44:55", date: "Feb 22, 2026", filter: "strategy" },
+            { num: 39, title: "Understanding Market Structure", desc: "Higher highs, lower lows, and break of structure — the building blocks of trend analysis that every trader must master.", tags: ["technical", "beginner"], duration: "47:12", date: "Feb 15, 2026", filter: "technical" },
+            { num: 38, title: "Trading During News Events", desc: "Should you trade the news or sit it out? A balanced approach to high-volatility events and how to protect your capital.", tags: ["strategy", "risk"], duration: "39:48", date: "Feb 8, 2026", filter: "strategy" },
+            { num: 37, title: "Interview: The Mind of a Prop Trader", desc: "Funded trader Mwansa Tembo breaks down what prop firms look for, how to pass challenges, and managing someone else's money.", tags: ["interview", "psychology"], duration: "58:22", date: "Feb 1, 2026", filter: "interview" },
+            { num: 36, title: "Backtesting Strategies the Right Way", desc: "Your strategy is only as good as your data. Learn how to properly backtest, avoid curve fitting, and build real confidence in your edge.", tags: ["strategy", "technical"], duration: "43:10", date: "Jan 25, 2026", filter: "strategy" },
+        ];
+
+        let visibleCount = 8;
+        let activeFilter = 'all';
+        let searchTerm = '';
+
+        function renderEpisodes() {
+            const grid = document.getElementById('episodes-grid');
+            const filtered = episodes.filter(ep => {
+                const matchFilter = activeFilter === 'all' || ep.filter === activeFilter || ep.tags.includes(activeFilter);
+                const matchSearch = ep.title.toLowerCase().includes(searchTerm) || ep.desc.toLowerCase().includes(searchTerm) || ep.tags.some(t => t.includes(searchTerm));
+                return matchFilter && matchSearch;
+            });
+            const visible = filtered.slice(0, visibleCount);
+            grid.innerHTML = visible.map((ep, i) => `
+                <a href="episode.html?ep=${ep.num}" class="ep-grid-card reveal ${i < 4 ? 'visible' : ''}" style="animation-delay:${i * 0.05}s">
+                    <div class="ep-grid-header">
+                        <span class="ep-num">EP ${ep.num}</span>
+                        <span class="ep-dur"><i class="fas fa-clock"></i> ${ep.duration}</span>
+                    </div>
+                    <h3>${ep.title}</h3>
+                    <p>${ep.desc}</p>
+                    <div class="ep-grid-footer">
+                        <div class="ep-grid-tags">${ep.tags.map(t => `<span class="ep-tag">${t}</span>`).join('')}</div>
+                        <span class="ep-grid-date">${ep.date}</span>
+                    </div>
+                </a>
+            `).join('');
+            document.getElementById('load-more-btn').style.display = visibleCount >= filtered.length ? 'none' : '';
+            // Re-observe new elements
+            grid.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
+        }
+
+        // Filter tags
+        document.querySelectorAll('.filter-tag').forEach(tag => {
+            tag.addEventListener('click', () => {
+                document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+                tag.classList.add('active');
+                activeFilter = tag.dataset.filter;
+                visibleCount = 8;
+                renderEpisodes();
+            });
+        });
+
+        // Search
+        document.getElementById('episode-search').addEventListener('input', (e) => {
+            searchTerm = e.target.value.toLowerCase();
+            visibleCount = 8;
+            renderEpisodes();
+        });
+
+        // Load more
+        document.getElementById('load-more-btn').addEventListener('click', () => {
+            visibleCount += 4;
+            renderEpisodes();
+        });
+
+        renderEpisodes();
+    </script>
+</body>
+</html>
