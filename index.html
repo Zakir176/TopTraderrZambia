@@ -3,591 +3,1546 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TopTrader Zambia | Forex Trading Experts</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>The Blue Candle Podcast | Trading Education & Mentorship</title>
+    <meta name="description" content="Trading education, mentorship, and podcast conversations to help you master the financial markets.">
+    <meta property="og:title" content="The Blue Candle Podcast">
+    <meta property="og:description" content="Trading education, mentorship, and podcast conversations to help you master the financial markets.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* ===== Global Styles ===== */
+        /* ===== CSS Custom Properties ===== */
         :root {
-            --primary: #0056b3;  /* Trust blue */
-            --secondary: #FFD700;  /* Gold accent */
-            --dark: #1a1a2e;
-            --light: #f8f9fa;
-            --danger: #dc3545;
-            --success: #28a745;
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #0f1429;
+            --bg-card: rgba(15, 20, 45, 0.7);
+            --bg-glass: rgba(20, 30, 70, 0.35);
+            --border-glass: rgba(59, 130, 246, 0.15);
+            --blue-500: #3b82f6;
+            --blue-400: #60a5fa;
+            --blue-300: #93c5fd;
+            --blue-600: #2563eb;
+            --blue-700: #1d4ed8;
+            --cyan-400: #22d3ee;
+            --cyan-500: #06b6d4;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-gradient: linear-gradient(135deg, #3b82f6, #06b6d4);
+            --glow-blue: 0 0 30px rgba(59, 130, 246, 0.3);
+            --glow-cyan: 0 0 30px rgba(6, 182, 212, 0.2);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        * {
+
+        /* ===== Reset & Base ===== */
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
         }
-        
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
         body {
-            background-color: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
-        
+
+        /* ===== Utility ===== */
         .container {
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
-        
-        /* ===== Header ===== */
-        header {
-            background-color: var(--dark);
-            color: white;
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .header-container {
-            display: flex;
-            justify-content: space-between;
+
+        .section-label {
+            display: inline-flex;
             align-items: center;
+            gap: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--cyan-400);
+            margin-bottom: 16px;
         }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+
+        .section-label::before {
+            content: '';
+            width: 24px;
+            height: 2px;
+            background: var(--accent-gradient);
+            border-radius: 2px;
         }
-        
-        .logo img {
-            height: 40px;
+
+        .section-heading {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
         }
-        
-        .logo-text {
-            font-weight: 700;
-            font-size: 1.5rem;
-            background: linear-gradient(to right, var(--secondary), #ffffff);
+
+        .gradient-text {
+            background: var(--accent-gradient);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
+
+        .section-desc {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.8;
         }
-        
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        nav a:hover {
-            color: var(--secondary);
-        }
-        
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        
-        /* ===== Hero Section ===== */
-        .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                        url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
-            background-size: cover;
-            background-position: center;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            text-align: center;
-            color: white;
-            padding-top: 80px;
-        }
-        
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background-color: var(--secondary);
-            color: var(--dark);
-            border: none;
-            border-radius: 5px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-        
-        .btn:hover {
-            background-color: #e6c200;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: #004494;
-        }
-        
-        /* ===== Services Section ===== */
-        .services {
-            padding: 5rem 0;
-            background-color: white;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        
-        .section-title h2 {
-            font-size: 2.5rem;
-            color: var(--dark);
-            margin-bottom: 1rem;
-        }
-        
-        .section-title p {
-            color: #666;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        
-        .service-card {
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-        
-        .service-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .service-img {
-            height: 200px;
-            overflow: hidden;
-        }
-        
-        .service-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-        
-        .service-card:hover .service-img img {
-            transform: scale(1.1);
-        }
-        
-        .service-content {
-            padding: 1.5rem;
-        }
-        
-        .service-content h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-        
-        .service-content p {
-            color: #666;
-            margin-bottom: 1.5rem;
-        }
-        
-        /* ===== Stats Section ===== */
-        .stats {
-            background-color: var(--primary);
-            color: white;
-            padding: 4rem 0;
-            text-align: center;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-        }
-        
-        .stat-item h3 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        
-        .stat-item p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-        
-        /* ===== Testimonials ===== */
-        .testimonials {
-            padding: 5rem 0;
-            background-color: #f9f9f9;
-        }
-        
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        
-        .testimonial-card {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .testimonial-card .quote {
-            font-style: italic;
-            margin-bottom: 1.5rem;
-            color: #555;
-        }
-        
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .author-img {
-            width: 50px;
-            height: 50px;
+
+        /* ===== Ambient Background Effects ===== */
+        .bg-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
             border-radius: 50%;
-            overflow: hidden;
+            filter: blur(150px);
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: 0;
         }
-        
-        .author-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+
+        .bg-glow-1 {
+            top: -200px;
+            right: -200px;
+            background: var(--blue-500);
         }
-        
-        .author-info h4 {
-            font-size: 1.1rem;
-            color: var(--dark);
+
+        .bg-glow-2 {
+            bottom: 30%;
+            left: -300px;
+            background: var(--cyan-500);
         }
-        
-        .author-info p {
-            color: #777;
-            font-size: 0.9rem;
+
+        .bg-glow-3 {
+            bottom: -200px;
+            right: 10%;
+            background: var(--blue-700);
         }
-        
-        /* ===== CTA Section ===== */
-        .cta {
-            background: linear-gradient(135deg, var(--primary), #003366);
-            color: white;
-            padding: 5rem 0;
-            text-align: center;
+
+        /* ===== Header ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 16px 0;
+            background: rgba(10, 14, 26, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-glass);
+            transition: var(--transition);
         }
-        
-        .cta h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
+
+        header.scrolled {
+            background: rgba(10, 14, 26, 0.92);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
         }
-        
-        .cta p {
-            max-width: 700px;
-            margin: 0 auto 2rem;
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        
-        /* ===== Footer ===== */
-        footer {
-            background-color: var(--dark);
-            color: white;
-            padding: 4rem 0 2rem;
-        }
-        
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        
-        .footer-col h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
-            color: var(--secondary);
-        }
-        
-        .footer-col ul {
-            list-style: none;
-        }
-        
-        .footer-col ul li {
-            margin-bottom: 0.8rem;
-        }
-        
-        .footer-col a {
-            color: #ddd;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-col a:hover {
-            color: var(--secondary);
-        }
-        
-        .social-links {
+
+        .header-inner {
             display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
+            align-items: center;
+            justify-content: space-between;
         }
-        
-        .social-links a {
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: var(--accent-gradient);
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.1rem;
+            color: white;
+            box-shadow: var(--glow-blue);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.2));
+        }
+
+        .logo-text {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .logo-text span {
+            color: var(--blue-400);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        nav a:hover {
+            color: var(--text-primary);
+            background: var(--bg-glass);
+        }
+
+        .nav-cta {
+            background: var(--accent-gradient) !important;
+            color: white !important;
+            font-weight: 600 !important;
+            padding: 10px 24px !important;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(59, 130, 246, 0.4) !important;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 80px;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 580px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--cyan-400);
+            margin-bottom: 24px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 3.8rem);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.04em;
+            margin-bottom: 24px;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 36px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--accent-gradient);
+            color: white;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-glass);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-outline:hover {
+            background: var(--bg-glass);
+            border-color: var(--blue-500);
+            transform: translateY(-3px);
+        }
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-card {
+            position: relative;
+            width: 100%;
+            max-width: 480px;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            box-shadow: var(--glow-blue), 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--radius-xl);
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(59,130,246,0.3), transparent, rgba(6,182,212,0.2));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+        .waveform-container {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .play-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+            transition: var(--transition);
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(59, 130, 246, 0.6);
+        }
+
+        .waveform-bars {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            flex: 1;
+            height: 40px;
+        }
+
+        .waveform-bars .bar {
+            flex: 1;
+            background: var(--blue-500);
+            border-radius: 2px;
+            min-width: 3px;
+            opacity: 0.6;
+            transition: var(--transition);
+        }
+
+        .waveform-bars .bar.active {
+            opacity: 1;
+            background: var(--cyan-400);
+        }
+
+        .episode-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .episode-meta .ep-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--cyan-400);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .episode-meta .ep-duration {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .hero-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .hero-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ===== Stats Bar ===== */
+        .stats-bar {
+            position: relative;
+            z-index: 1;
+            padding: 60px 0;
+            border-top: 1px solid var(--border-glass);
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            text-align: center;
+        }
+
+        .stat-item {
+            position: relative;
+        }
+
+        .stat-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: -16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 50px;
+            background: var(--border-glass);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.03em;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        /* ===== Episodes Section ===== */
+        .episodes {
+            padding: 100px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .episodes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 48px;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .episodes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .episode-card {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 24px;
+            align-items: center;
+            padding: 24px;
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .episode-card:hover {
+            background: rgba(20, 30, 70, 0.5);
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+            box-shadow: var(--glow-blue);
+        }
+
+        .ep-play {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            color: var(--blue-400);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .episode-card:hover .ep-play {
+            background: var(--accent-gradient);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .ep-info h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .ep-info .ep-desc {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .ep-info .ep-tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .ep-tag {
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 50px;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--blue-400);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+        }
+
+        .ep-details {
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .ep-details .ep-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--cyan-400);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .ep-details .ep-time {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .ep-details .ep-date {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* ===== About Section ===== */
+        .about {
+            padding: 100px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .about-visual {
+            position: relative;
+        }
+
+        .about-image-wrapper {
+            position: relative;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            aspect-ratio: 4/5;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+        }
+
+        .about-image-wrapper .about-placeholder {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--bg-secondary), #1a2340);
+        }
+
+        .about-image-wrapper .about-placeholder i {
+            font-size: 5rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            opacity: 0.5;
+        }
+
+        .about-float-card {
+            position: absolute;
+            bottom: -24px;
+            right: -24px;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            padding: 20px 28px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .about-float-card .afc-number {
+            font-size: 2rem;
+            font-weight: 900;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .about-float-card .afc-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .about-content .section-desc {
+            margin-bottom: 32px;
+        }
+
+        .about-features {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .about-feature {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .af-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-sm);
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blue-400);
+            flex-shrink: 0;
+            font-size: 1rem;
+        }
+
+        .af-text h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .af-text p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ===== Services / Mentorship Section ===== */
+        .services {
+            padding: 100px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .services-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .services-header .section-desc {
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .service-card {
+            position: relative;
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-xl);
+            padding: 36px 28px;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent-gradient);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: var(--glow-blue), 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .sc-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-md);
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: var(--blue-400);
+            margin-bottom: 24px;
+            transition: var(--transition);
+        }
+
+        .service-card:hover .sc-icon {
+            background: var(--accent-gradient);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .service-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .service-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* ===== Testimonials ===== */
+        .testimonials {
+            padding: 100px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonials-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .testimonials-header .section-desc {
+            margin: 0 auto;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .testimonial-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            transition: var(--transition);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(59, 130, 246, 0.25);
+            box-shadow: var(--glow-blue);
+        }
+
+        .tc-stars {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+            color: #fbbf24;
+            font-size: 0.85rem;
+        }
+
+        .tc-quote {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 24px;
+            font-style: italic;
+        }
+
+        .tc-author {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .tc-avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+        }
+
+        .tc-author-info h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .tc-author-info p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== CTA Section ===== */
+        .cta {
+            padding: 100px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-card {
+            position: relative;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-xl);
+            padding: 80px 60px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .cta-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .cta-card h2 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 900;
+            margin-bottom: 16px;
+            letter-spacing: -0.03em;
+            position: relative;
+        }
+
+        .cta-card p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 550px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+            position: relative;
+        }
+
+        .cta-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            position: relative;
+            z-index: 1;
+            border-top: 1px solid var(--border-glass);
+            padding: 80px 0 32px;
+            background: var(--bg-secondary);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 16px;
+            line-height: 1.7;
+            max-width: 320px;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .footer-socials a {
             width: 40px;
             height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
-            transition: all 0.3s;
-        }
-        
-        .social-links a:hover {
-            background-color: var(--secondary);
-            color: var(--dark);
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #aaa;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
             font-size: 0.9rem;
         }
-        
-        /* ===== Mobile Responsiveness ===== */
+
+        .footer-socials a:hover {
+            background: var(--accent-gradient);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .footer-col h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--blue-400);
+            padding-left: 4px;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-glass);
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-bottom p {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-bottom-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.82rem;
+            transition: var(--transition);
+        }
+
+        .footer-bottom-links a:hover {
+            color: var(--blue-400);
+        }
+
+        /* ===== Scroll Animations ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ===== Mobile Nav Overlay ===== */
+        .nav-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 14, 26, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .nav-overlay nav {
+            flex-direction: column;
+            gap: 16px;
+            text-align: center;
+        }
+
+        .nav-overlay nav a {
+            font-size: 1.5rem;
+            font-weight: 600;
+            padding: 12px 32px;
+        }
+
+        .nav-overlay .close-nav {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 1024px) {
+            .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+            .hero-visual { display: none; }
+            .hero-content { max-width: 100%; text-align: center; }
+            .hero-actions { justify-content: center; }
+            .hero-badge { margin: 0 auto 24px; }
+            .about-grid { grid-template-columns: 1fr; gap: 48px; }
+            .about-visual { order: -1; }
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+
         @media (max-width: 768px) {
-            .header-container {
-                padding: 0 20px;
-            }
-            
-            nav {
-                position: fixed;
-                top: 80px;
-                left: -100%;
-                width: 100%;
-                height: calc(100vh - 80px);
-                background-color: var(--dark);
-                transition: left 0.3s;
-                padding: 2rem;
-            }
-            
-            nav.active {
-                left: 0;
-            }
-            
-            nav ul {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            
-            .hero p {
-                font-size: 1rem;
-            }
-            
-            .section-title h2 {
-                font-size: 2rem;
-            }
+            nav:not(.nav-overlay nav) { display: none; }
+            .mobile-toggle { display: block; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+            .stat-item:not(:last-child)::after { display: none; }
+            .services-grid { grid-template-columns: 1fr; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .cta-card { padding: 48px 24px; }
+            .hero h1 { font-size: 2.2rem; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-actions { flex-direction: column; align-items: center; }
+            .btn { width: 100%; justify-content: center; }
+            .stats-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
+
+    <!-- Ambient Background Glows -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
+
     <!-- Header -->
-    <header>
-        <div class="container header-container">
-            <div class="logo">
-                <img src="https://via.placeholder.com/40x40" alt="TopTrader Zambia Logo" id="logo-img">
-                <span class="logo-text">TopTrader Zambia</span>
-            </div>
-            <nav id="main-nav">
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#testimonials">Testimonials</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
+    <header id="site-header">
+        <div class="container header-inner">
+            <a href="#" class="logo" id="logo-link">
+                <div class="logo-icon">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <span class="logo-text">Blue<span>Candle</span></span>
+            </a>
+            <nav id="desktop-nav">
+                <a href="#episodes">Episodes</a>
+                <a href="#about">About</a>
+                <a href="#services">Mentorship</a>
+                <a href="#testimonials">Reviews</a>
+                <a href="#cta" class="nav-cta">Start Learning</a>
             </nav>
-            <button class="mobile-menu-btn" id="mobile-menu-btn">
+            <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle menu">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
     </header>
 
+    <!-- Mobile Nav Overlay -->
+    <div class="nav-overlay" id="nav-overlay">
+        <button class="close-nav" id="close-nav" aria-label="Close menu"><i class="fas fa-times"></i></button>
+        <nav>
+            <a href="#episodes" class="mobile-link">Episodes</a>
+            <a href="#about" class="mobile-link">About</a>
+            <a href="#services" class="mobile-link">Mentorship</a>
+            <a href="#testimonials" class="mobile-link">Reviews</a>
+            <a href="#cta" class="mobile-link nav-cta">Start Learning</a>
+        </nav>
+    </div>
+
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="container">
-            <div class="hero-content">
-                <h1>Master the Markets with TopTrader Zambia</h1>
-                <p>Join Zambia's most trusted Forex trading community and gain access to expert signals, training, and mentorship to maximize your profits.</p>
-                <div class="hero-buttons">
-                    <a href="#signup" class="btn btn-primary">Start Free Trial</a>
-                    <a href="#learn-more" class="btn">Learn More</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section class="services" id="services">
-        <div class="container">
-            <div class="section-title">
-                <h2>Our Premium Services</h2>
-                <p>We offer comprehensive trading solutions tailored for both beginners and experienced traders</p>
-            </div>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-img">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Trading Signals">
+            <div class="hero-grid">
+                <div class="hero-content reveal">
+                    <div class="hero-badge">
+                        <span class="dot"></span>
+                        New Episode Live Now
                     </div>
-                    <div class="service-content">
-                        <h3>Premium Trading Signals</h3>
-                        <p>Get accurate, real-time forex signals with high profit potential, delivered directly to your phone.</p>
-                        <a href="#" class="btn">Learn More</a>
+                    <h1>Master the Markets with <span class="gradient-text">The Blue Candle</span></h1>
+                    <p>Trading education, mentorship, and podcast conversations to help you master the financial markets. Learn from real traders, real strategies, real results.</p>
+                    <div class="hero-actions">
+                        <a href="#episodes" class="btn btn-primary">
+                            <i class="fas fa-headphones"></i> Listen Now
+                        </a>
+                        <a href="#services" class="btn btn-outline">
+                            <i class="fas fa-graduation-cap"></i> Join Mentorship
+                        </a>
                     </div>
                 </div>
-                <div class="service-card">
-                    <div class="service-img">
-                        <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Mentorship">
-                    </div>
-                    <div class="service-content">
-                        <h3>1-on-1 Mentorship</h3>
-                        <p>Personalized coaching from our expert traders to help you develop winning strategies.</p>
-                        <a href="#" class="btn">Learn More</a>
-                    </div>
-                </div>
-                <div class="service-card">
-                    <div class="service-img">
-                        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Training">
-                    </div>
-                    <div class="service-content">
-                        <h3>Comprehensive Training</h3>
-                        <p>Weekly webinars and courses covering technical analysis, risk management, and more.</p>
-                        <a href="#" class="btn">Learn More</a>
+                <div class="hero-visual reveal reveal-delay-2">
+                    <div class="hero-card">
+                        <div class="episode-meta">
+                            <span class="ep-label">EP. 47 — LATEST</span>
+                            <span class="ep-duration">48:32</span>
+                        </div>
+                        <h3>The Psychology Behind Winning Trades</h3>
+                        <p>Why 90% of trading success is mental — and how to build the mindset of a consistently profitable trader.</p>
+                        <div class="waveform-container" style="margin-top: 24px;">
+                            <button class="play-btn" id="hero-play-btn" aria-label="Play episode">
+                                <i class="fas fa-play" style="margin-left: 3px;"></i>
+                            </button>
+                            <div class="waveform-bars" id="hero-waveform">
+                                <!-- Bars generated via JS -->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="stats">
+    <!-- Stats Bar -->
+    <section class="stats-bar">
         <div class="container">
             <div class="stats-grid">
-                <div class="stat-item">
-                    <h3>500+</h3>
-                    <p>Traders Mentored</p>
+                <div class="stat-item reveal">
+                    <div class="stat-number">47</div>
+                    <div class="stat-label">Episodes Published</div>
                 </div>
-                <div class="stat-item">
-                    <h3>85%</h3>
-                    <p>Success Rate</p>
+                <div class="stat-item reveal reveal-delay-1">
+                    <div class="stat-number">12K+</div>
+                    <div class="stat-label">Active Listeners</div>
                 </div>
-                <div class="stat-item">
-                    <h3>24/7</h3>
-                    <p>Support</p>
+                <div class="stat-item reveal reveal-delay-2">
+                    <div class="stat-number">850+</div>
+                    <div class="stat-label">Students Mentored</div>
                 </div>
-                <div class="stat-item">
-                    <h3>5+</h3>
-                    <p>Years Experience</p>
+                <div class="stat-item reveal reveal-delay-3">
+                    <div class="stat-number">93%</div>
+                    <div class="stat-label">Success Rate</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials -->
+    <!-- Episodes Section -->
+    <section class="episodes" id="episodes">
+        <div class="container">
+            <div class="episodes-header">
+                <div>
+                    <span class="section-label">Latest Episodes</span>
+                    <h2 class="section-heading">Listen & <span class="gradient-text">Learn</span></h2>
+                    <p class="section-desc">Deep-dive conversations with professional traders, market analysts, and industry experts.</p>
+                </div>
+                <a href="#" class="btn btn-outline" style="height: fit-content;">
+                    View All Episodes <i class="fas fa-arrow-right" style="font-size: 0.8rem;"></i>
+                </a>
+            </div>
+
+            <div class="episodes-list">
+                <div class="episode-card reveal">
+                    <div class="ep-play"><i class="fas fa-play" style="margin-left: 2px;"></i></div>
+                    <div class="ep-info">
+                        <h3>The Psychology Behind Winning Trades</h3>
+                        <p class="ep-desc">Why 90% of trading success is mental — and how to build the mindset of a consistently profitable trader in any market condition.</p>
+                        <div class="ep-tags">
+                            <span class="ep-tag">Psychology</span>
+                            <span class="ep-tag">Mindset</span>
+                        </div>
+                    </div>
+                    <div class="ep-details">
+                        <div class="ep-number">EP 47</div>
+                        <div class="ep-time">48:32</div>
+                        <div class="ep-date">Apr 12, 2026</div>
+                    </div>
+                </div>
+
+                <div class="episode-card reveal reveal-delay-1">
+                    <div class="ep-play"><i class="fas fa-play" style="margin-left: 2px;"></i></div>
+                    <div class="ep-info">
+                        <h3>Reading Price Action Like a Pro</h3>
+                        <p class="ep-desc">Forget lagging indicators — learn to read naked charts and understand what the market is truly telling you with pure price action analysis.</p>
+                        <div class="ep-tags">
+                            <span class="ep-tag">Price Action</span>
+                            <span class="ep-tag">Technical</span>
+                        </div>
+                    </div>
+                    <div class="ep-details">
+                        <div class="ep-number">EP 46</div>
+                        <div class="ep-time">55:18</div>
+                        <div class="ep-date">Apr 5, 2026</div>
+                    </div>
+                </div>
+
+                <div class="episode-card reveal reveal-delay-2">
+                    <div class="ep-play"><i class="fas fa-play" style="margin-left: 2px;"></i></div>
+                    <div class="ep-info">
+                        <h3>Risk Management: The Art of Survival</h3>
+                        <p class="ep-desc">Position sizing, stop losses, and capital preservation — the unglamorous but essential foundation of every successful trading career.</p>
+                        <div class="ep-tags">
+                            <span class="ep-tag">Risk Management</span>
+                            <span class="ep-tag">Strategy</span>
+                        </div>
+                    </div>
+                    <div class="ep-details">
+                        <div class="ep-number">EP 45</div>
+                        <div class="ep-time">42:07</div>
+                        <div class="ep-date">Mar 29, 2026</div>
+                    </div>
+                </div>
+
+                <div class="episode-card reveal reveal-delay-3">
+                    <div class="ep-play"><i class="fas fa-play" style="margin-left: 2px;"></i></div>
+                    <div class="ep-info">
+                        <h3>From Demo to Live: Making the Leap</h3>
+                        <p class="ep-desc">The critical transition from paper trading to real money — how to handle emotions, risk, and expectations when your capital is on the line.</p>
+                        <div class="ep-tags">
+                            <span class="ep-tag">Beginner</span>
+                            <span class="ep-tag">Live Trading</span>
+                        </div>
+                    </div>
+                    <div class="ep-details">
+                        <div class="ep-number">EP 44</div>
+                        <div class="ep-time">38:45</div>
+                        <div class="ep-date">Mar 22, 2026</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-visual reveal">
+                    <div class="about-image-wrapper">
+                        <div class="about-placeholder">
+                            <i class="fas fa-chart-candlestick" style="font-size: 4rem;"></i>
+                            <i class="fas fa-microphone-lines" style="font-size: 4rem; position: absolute; bottom: 30%; right: 20%;"></i>
+                        </div>
+                    </div>
+                    <div class="about-float-card">
+                        <div class="afc-number">5+</div>
+                        <div class="afc-label">Years in the Markets</div>
+                    </div>
+                </div>
+                <div class="about-content reveal reveal-delay-2">
+                    <span class="section-label">About the Show</span>
+                    <h2 class="section-heading">Real Traders. <span class="gradient-text">Real Talk.</span></h2>
+                    <p class="section-desc">The Blue Candle Podcast was born from the belief that trading education should be accessible, honest, and free of hype. Every week, we break down strategies, psychology, and market dynamics with traders who actually do the work.</p>
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <div class="af-icon"><i class="fas fa-chart-line"></i></div>
+                            <div class="af-text">
+                                <h4>Market Analysis</h4>
+                                <p>Weekly breakdowns of Forex, crypto, and indices with actionable insights.</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <div class="af-icon"><i class="fas fa-users"></i></div>
+                            <div class="af-text">
+                                <h4>Community Driven</h4>
+                                <p>Join a growing community of traders sharing ideas and accountability.</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <div class="af-icon"><i class="fas fa-brain"></i></div>
+                            <div class="af-text">
+                                <h4>Psychology First</h4>
+                                <p>We focus on the mental game — the #1 factor behind consistent profitability.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services / Mentorship Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="services-header">
+                <span class="section-label">What We Offer</span>
+                <h2 class="section-heading">Education & <span class="gradient-text">Mentorship</span></h2>
+                <p class="section-desc">From free podcast episodes to in-depth mentorship programs — there's a path for every stage of your trading journey.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card reveal">
+                    <div class="sc-icon"><i class="fas fa-podcast"></i></div>
+                    <h3>Weekly Podcast</h3>
+                    <p>Free weekly episodes featuring expert interviews, trade breakdowns, and market commentary to keep you informed and inspired.</p>
+                </div>
+                <div class="service-card reveal reveal-delay-1">
+                    <div class="sc-icon"><i class="fas fa-signal"></i></div>
+                    <h3>Trading Signals</h3>
+                    <p>Curated trade setups with entry, stop loss, and take profit levels delivered to you in real time throughout the trading week.</p>
+                </div>
+                <div class="service-card reveal reveal-delay-2">
+                    <div class="sc-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                    <h3>1-on-1 Mentorship</h3>
+                    <p>Personalized coaching tailored to your style, schedule, and goals. Build a strategy that works for your life and risk tolerance.</p>
+                </div>
+                <div class="service-card reveal reveal-delay-1">
+                    <div class="sc-icon"><i class="fas fa-video"></i></div>
+                    <h3>Live Webinars</h3>
+                    <p>Interactive live sessions where we analyze the markets together, answer questions, and walk through trade setups in real time.</p>
+                </div>
+                <div class="service-card reveal reveal-delay-2">
+                    <div class="sc-icon"><i class="fas fa-book-open"></i></div>
+                    <h3>Course Library</h3>
+                    <p>Self-paced video courses covering technical analysis, risk management, trading psychology, and more — from beginner to advanced.</p>
+                </div>
+                <div class="service-card reveal reveal-delay-3">
+                    <div class="sc-icon"><i class="fas fa-comments"></i></div>
+                    <h3>Private Community</h3>
+                    <p>Access an exclusive network of traders sharing ideas, accountability, and support. Trade alongside like-minded individuals.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
     <section class="testimonials" id="testimonials">
         <div class="container">
-            <div class="section-title">
-                <h2>What Our Traders Say</h2>
-                <p>Don't just take our word for it - hear from our community of successful traders</p>
+            <div class="testimonials-header">
+                <span class="section-label">Testimonials</span>
+                <h2 class="section-heading">What Our <span class="gradient-text">Community</span> Says</h2>
+                <p class="section-desc">Hear from traders who have transformed their approach to the markets through our content and mentorship.</p>
             </div>
             <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="quote">
-                        "TopTrader Zambia transformed my trading completely. I went from losing money to consistent profits within 3 months of joining their mentorship program."
+                <div class="testimonial-card reveal">
+                    <div class="tc-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
                     </div>
-                    <div class="testimonial-author">
-                        <div class="author-img">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John Banda">
-                        </div>
-                        <div class="author-info">
+                    <p class="tc-quote">"The Blue Candle completely changed how I see the markets. The mentorship program gave me structure and the confidence to trade consistently. Best investment I've ever made."</p>
+                    <div class="tc-author">
+                        <div class="tc-avatar">JB</div>
+                        <div class="tc-author-info">
                             <h4>John Banda</h4>
                             <p>Forex Trader, Lusaka</p>
                         </div>
                     </div>
                 </div>
-                <div class="testimonial-card">
-                    <div class="quote">
-                        "The signals are incredibly accurate and the educational resources are top-notch. I've more than doubled my account since I started following their advice."
+                <div class="testimonial-card reveal reveal-delay-1">
+                    <div class="tc-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
                     </div>
-                    <div class="testimonial-author">
-                        <div class="author-img">
-                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Mwale">
-                        </div>
-                        <div class="author-info">
+                    <p class="tc-quote">"Every episode is packed with actionable value. I went from blowing accounts to being consistently profitable in just 4 months. The psychology episodes are absolute gold."</p>
+                    <div class="tc-author">
+                        <div class="tc-avatar">SM</div>
+                        <div class="tc-author-info">
                             <h4>Sarah Mwale</h4>
-                            <p>Part-time Trader, Ndola</p>
+                            <p>Part-Time Trader, Ndola</p>
                         </div>
                     </div>
                 </div>
-                <div class="testimonial-card">
-                    <div class="quote">
-                        "As a beginner, I was overwhelmed by forex trading. The step-by-step training from TopTrader Zambia gave me the confidence to trade profitably."
+                <div class="testimonial-card reveal reveal-delay-2">
+                    <div class="tc-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
                     </div>
-                    <div class="testimonial-author">
-                        <div class="author-img">
-                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="David Phiri">
-                        </div>
-                        <div class="author-info">
+                    <p class="tc-quote">"As someone who knew nothing about trading, The Blue Candle made the learning process approachable and fun. The community is incredibly welcoming and supportive."</p>
+                    <div class="tc-author">
+                        <div class="tc-avatar">DP</div>
+                        <div class="tc-author-info">
                             <h4>David Phiri</h4>
                             <p>New Trader, Livingstone</p>
                         </div>
@@ -598,11 +1553,20 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="cta" id="signup">
+    <section class="cta" id="cta">
         <div class="container">
-            <h2>Ready to Transform Your Trading?</h2>
-            <p>Join hundreds of successful traders in Zambia who are already benefiting from our expert guidance and proven strategies.</p>
-            <a href="#" class="btn btn-primary">Start Your Free Trial Now</a>
+            <div class="cta-card reveal">
+                <h2>Ready to <span class="gradient-text">Transform</span> Your Trading?</h2>
+                <p>Join thousands of traders who are leveling up their skills, mindset, and results with The Blue Candle Podcast and mentorship program.</p>
+                <div class="cta-actions">
+                    <a href="#" class="btn btn-primary">
+                        <i class="fas fa-headphones"></i> Listen to the Podcast
+                    </a>
+                    <a href="#" class="btn btn-outline">
+                        <i class="fas fa-rocket"></i> Join Mentorship
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -610,128 +1574,167 @@
     <footer id="contact">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-col">
-                    <h3>TopTrader Zambia</h3>
-                    <p>Zambia's premier forex trading education and signals provider, helping traders succeed since 2018.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                <div class="footer-brand">
+                    <a href="#" class="logo" style="margin-bottom: 4px;">
+                        <div class="logo-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <span class="logo-text">Blue<span>Candle</span></span>
+                    </a>
+                    <p>Trading education, mentorship, and podcast conversations to help you master the financial markets.</p>
+                    <div class="footer-socials">
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Spotify"><i class="fab fa-spotify"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
                 <div class="footer-col">
-                    <h3>Quick Links</h3>
+                    <h4>Quick Links</h4>
                     <ul>
                         <li><a href="#home">Home</a></li>
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#testimonials">Testimonials</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#episodes">Episodes</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#services">Mentorship</a></li>
+                        <li><a href="#testimonials">Reviews</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h3>Services</h3>
+                    <h4>Services</h4>
                     <ul>
+                        <li><a href="#">Weekly Podcast</a></li>
                         <li><a href="#">Trading Signals</a></li>
-                        <li><a href="#">Mentorship</a></li>
-                        <li><a href="#">Training Courses</a></li>
-                        <li><a href="#">VIP Membership</a></li>
+                        <li><a href="#">1-on-1 Mentorship</a></li>
+                        <li><a href="#">Course Library</a></li>
+                        <li><a href="#">Private Community</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h3>Contact Us</h3>
+                    <h4>Contact</h4>
                     <ul>
-                        <li><i class="fas fa-map-marker-alt"></i> Lusaka, Zambia</li>
-                        <li><i class="fas fa-phone"></i> +260 97 123 4567</li>
-                        <li><i class="fas fa-envelope"></i> info@toptraderzambia.com</li>
+                        <li><a href="#"><i class="fas fa-envelope" style="margin-right: 8px; color: var(--blue-400);"></i>hello@bluecandle.co</a></li>
+                        <li><a href="#"><i class="fas fa-map-pin" style="margin-right: 8px; color: var(--blue-400);"></i>Lusaka, Zambia</a></li>
+                        <li><a href="#"><i class="fab fa-whatsapp" style="margin-right: 8px; color: var(--blue-400);"></i>+260 97 123 4567</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="copyright">
-                <p>&copy; 2023 TopTrader Zambia. All Rights Reserved. | <a href="#">Terms & Conditions</a> | <a href="#">Privacy Policy</a> | <a href="#">Risk Disclaimer</a></p>
-                <p style="margin-top: 10px; font-size: 0.8rem;">Forex trading involves substantial risk of loss and is not suitable for all investors.</p>
+            <div class="footer-bottom">
+                <p>&copy; 2026 The Blue Candle Podcast. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Terms</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Risk Disclaimer</a>
+                </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mainNav = document.getElementById('main-nav');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            mainNav.classList.toggle('active');
-            mobileMenuBtn.innerHTML = mainNav.classList.contains('active') 
-                ? '<i class="fas fa-times"></i>' 
-                : '<i class="fas fa-bars"></i>';
-        });
-
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                if(this.getAttribute('href') === '#') return;
-                
-                const target = document.querySelector(this.getAttribute('href'));
-                if(target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Close mobile menu if open
-                    if(mainNav.classList.contains('active')) {
-                        mainNav.classList.remove('active');
-                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                    }
-                }
-            });
-        });
-
-        // Change header background on scroll
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if(window.scrollY > 50) {
-                header.style.backgroundColor = 'rgba(26, 26, 46, 0.95)';
-                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
-            } else {
-                header.style.backgroundColor = 'var(--dark)';
-                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+        // ===== Waveform Bars Generator =====
+        function generateWaveform(containerId, barCount) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = '';
+            for (let i = 0; i < barCount; i++) {
+                const bar = document.createElement('div');
+                bar.classList.add('bar');
+                const h = Math.random() * 80 + 20;
+                bar.style.height = h + '%';
+                if (i < barCount * 0.4) bar.classList.add('active');
+                container.appendChild(bar);
             }
-        });
+        }
+        generateWaveform('hero-waveform', 45);
 
-        // Animation on scroll
-        const animateOnScroll = () => {
-            const elements = document.querySelectorAll('.service-card, .testimonial-card, .stat-item');
-            
-            elements.forEach(element => {
-                const elementPosition = element.getBoundingClientRect().top;
-                const screenPosition = window.innerHeight / 1.3;
+        // ===== Play Button Animation =====
+        const heroPlayBtn = document.getElementById('hero-play-btn');
+        let isPlaying = false;
+        if (heroPlayBtn) {
+            heroPlayBtn.addEventListener('click', () => {
+                isPlaying = !isPlaying;
+                heroPlayBtn.innerHTML = isPlaying
+                    ? '<i class="fas fa-pause"></i>'
+                    : '<i class="fas fa-play" style="margin-left: 3px;"></i>';
                 
-                if(elementPosition < screenPosition) {
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
+                if (isPlaying) {
+                    animateWaveform();
                 }
             });
-        };
+        }
 
-        // Set initial state for animation
-        document.querySelectorAll('.service-card, .testimonial-card').forEach(element => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(20px)';
-            element.style.transition = 'all 0.5s ease';
+        function animateWaveform() {
+            if (!isPlaying) return;
+            const bars = document.querySelectorAll('#hero-waveform .bar');
+            bars.forEach(bar => {
+                const h = Math.random() * 80 + 20;
+                bar.style.height = h + '%';
+                bar.style.transition = 'height 0.15s ease';
+            });
+            requestAnimationFrame(() => setTimeout(animateWaveform, 150));
+        }
+
+        // ===== Header Scroll Effect =====
+        const header = document.getElementById('site-header');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 50);
         });
 
-        document.querySelectorAll('.stat-item').forEach(element => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(20px)';
-            element.style.transition = 'all 0.5s ease 0.2s';
+        // ===== Mobile Menu =====
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const navOverlay = document.getElementById('nav-overlay');
+        const closeNav = document.getElementById('close-nav');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function openMenu() { navOverlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeMenu() { navOverlay.classList.remove('active'); document.body.style.overflow = ''; }
+
+        mobileToggle.addEventListener('click', openMenu);
+        closeNav.addEventListener('click', closeMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+        // ===== Scroll Reveal Animations =====
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // ===== Smooth Scroll =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
         });
 
-        window.addEventListener('scroll', animateOnScroll);
-        window.addEventListener('load', animateOnScroll);
+        // ===== Episode Card Click Feedback =====
+        document.querySelectorAll('.episode-card').forEach(card => {
+            card.addEventListener('click', function () {
+                const playIcon = this.querySelector('.ep-play i');
+                if (playIcon.classList.contains('fa-play')) {
+                    document.querySelectorAll('.episode-card .ep-play i').forEach(i => {
+                        i.classList.remove('fa-pause');
+                        i.classList.add('fa-play');
+                    });
+                    playIcon.classList.remove('fa-play');
+                    playIcon.classList.add('fa-pause');
+                } else {
+                    playIcon.classList.remove('fa-pause');
+                    playIcon.classList.add('fa-play');
+                }
+            });
+        });
     </script>
 </body>
 </html>
