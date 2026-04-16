@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentorship & Pricing | The Blue Candle Podcast</title>
+    <meta name="description" content="Join The Blue Candle mentorship program — choose the plan that fits your trading journey.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .pricing-section {
+            padding: 40px 0 100px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pricing-toggle {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+
+        .toggle-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            padding: 6px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+        }
+
+        .toggle-option {
+            padding: 10px 28px;
+            border-radius: 50px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-secondary);
+            border: none;
+            background: none;
+            font-family: inherit;
+        }
+
+        .toggle-option.active {
+            background: var(--accent-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .save-badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 50px;
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.25);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            align-items: start;
+        }
+
+        .pricing-card {
+            position: relative;
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-xl);
+            padding: 40px 32px;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--glow-blue);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--blue-500);
+            box-shadow: var(--glow-blue);
+        }
+
+        .pricing-card.featured::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent-gradient);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 50px;
+            background: var(--accent-gradient);
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pricing-card .plan-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 24px;
+            transition: var(--transition);
+        }
+
+        .plan-icon.starter {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--blue-400);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+        }
+
+        .plan-icon.pro {
+            background: var(--accent-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .plan-icon.elite {
+            background: rgba(139, 92, 246, 0.1);
+            color: #a78bfa;
+            border: 1px solid rgba(139, 92, 246, 0.15);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .pricing-card .plan-desc {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .plan-price {
+            margin-bottom: 28px;
+            padding-bottom: 28px;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .plan-price .amount {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .plan-price .currency {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            vertical-align: top;
+            margin-right: 4px;
+        }
+
+        .plan-price .period {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+
+        .plan-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 8px 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .plan-features li i {
+            color: #22c55e;
+            margin-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .plan-features li.disabled {
+            opacity: 0.4;
+        }
+
+        .plan-features li.disabled i {
+            color: var(--text-muted);
+        }
+
+        .plan-btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .plan-btn-featured {
+            background: var(--accent-gradient);
+            color: white;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.35);
+        }
+
+        .plan-btn-featured:hover {
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 80px 0 100px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .faq-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .faq-header .section-desc {
+            margin: 0 auto;
+        }
+
+        .faq-list {
+            max-width: 760px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .faq-item {
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .faq-item:hover {
+            border-color: rgba(59, 130, 246, 0.25);
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            user-select: none;
+        }
+
+        .faq-question i {
+            color: var(--blue-400);
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer-inner {
+            padding: 0 24px 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        /* Guarantee */
+        .guarantee {
+            text-align: center;
+            margin-top: 60px;
+            padding: 40px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-xl);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .guarantee i {
+            font-size: 2.5rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 16px;
+        }
+
+        .guarantee h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .guarantee p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        @media (max-width: 1024px) {
+            .pricing-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+
+    <!-- Header -->
+    <header id="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><i class="fas fa-fire"></i></div>
+                <span class="logo-text">Blue<span>Candle</span></span>
+            </a>
+            <nav id="desktop-nav">
+                <a href="episodes.html">Episodes</a>
+                <a href="index.html#about">About</a>
+                <a href="pricing.html" class="active-link">Mentorship</a>
+                <a href="contact.html">Contact</a>
+                <a href="pricing.html" class="nav-cta">Start Learning</a>
+            </nav>
+            <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <div class="nav-overlay" id="nav-overlay">
+        <button class="close-nav" id="close-nav" aria-label="Close menu"><i class="fas fa-times"></i></button>
+        <nav>
+            <a href="episodes.html" class="mobile-link">Episodes</a>
+            <a href="index.html#about" class="mobile-link">About</a>
+            <a href="pricing.html" class="mobile-link">Mentorship</a>
+            <a href="contact.html" class="mobile-link">Contact</a>
+        </nav>
+    </div>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <span class="section-label">Mentorship & Pricing</span>
+            <h1 class="section-heading">Invest in Your <span class="gradient-text">Trading Future</span></h1>
+            <p class="section-desc">Choose the plan that matches your goals. Every plan includes access to our community and weekly market analysis.</p>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing-section">
+        <div class="container">
+            <div class="pricing-toggle reveal">
+                <div class="toggle-wrapper">
+                    <button class="toggle-option active" data-period="monthly">Monthly</button>
+                    <button class="toggle-option" data-period="yearly">Yearly <span class="save-badge">Save 20%</span></button>
+                </div>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Starter -->
+                <div class="pricing-card reveal">
+                    <div class="plan-icon starter"><i class="fas fa-seedling"></i></div>
+                    <h3>Starter</h3>
+                    <p class="plan-desc">Perfect for beginners starting their trading journey.</p>
+                    <div class="plan-price">
+                        <span class="currency">$</span><span class="amount" data-monthly="29" data-yearly="23">29</span>
+                        <span class="period">/ month</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Access to all podcast episodes</li>
+                        <li><i class="fas fa-check"></i> Weekly market analysis email</li>
+                        <li><i class="fas fa-check"></i> Community Discord access</li>
+                        <li><i class="fas fa-check"></i> Beginner course library</li>
+                        <li class="disabled"><i class="fas fa-xmark"></i> Trading signals</li>
+                        <li class="disabled"><i class="fas fa-xmark"></i> 1-on-1 mentorship calls</li>
+                        <li class="disabled"><i class="fas fa-xmark"></i> Live webinar access</li>
+                    </ul>
+                    <button class="btn btn-outline plan-btn">Get Started</button>
+                </div>
+
+                <!-- Pro (Featured) -->
+                <div class="pricing-card featured reveal reveal-delay-1">
+                    <span class="popular-badge">Most Popular</span>
+                    <div class="plan-icon pro"><i class="fas fa-bolt"></i></div>
+                    <h3>Pro Trader</h3>
+                    <p class="plan-desc">For serious traders ready to accelerate their growth.</p>
+                    <div class="plan-price">
+                        <span class="currency">$</span><span class="amount" data-monthly="79" data-yearly="63">79</span>
+                        <span class="period">/ month</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Everything in Starter</li>
+                        <li><i class="fas fa-check"></i> Daily trading signals</li>
+                        <li><i class="fas fa-check"></i> Full course library access</li>
+                        <li><i class="fas fa-check"></i> Weekly live webinars</li>
+                        <li><i class="fas fa-check"></i> Trade review sessions</li>
+                        <li class="disabled"><i class="fas fa-xmark"></i> 1-on-1 mentorship calls</li>
+                        <li class="disabled"><i class="fas fa-xmark"></i> Custom strategy development</li>
+                    </ul>
+                    <button class="btn plan-btn plan-btn-featured">Start Pro Trial</button>
+                </div>
+
+                <!-- Elite -->
+                <div class="pricing-card reveal reveal-delay-2">
+                    <div class="plan-icon elite"><i class="fas fa-crown"></i></div>
+                    <h3>Elite</h3>
+                    <p class="plan-desc">Full access with personalized 1-on-1 mentorship.</p>
+                    <div class="plan-price">
+                        <span class="currency">$</span><span class="amount" data-monthly="199" data-yearly="159">199</span>
+                        <span class="period">/ month</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Everything in Pro</li>
+                        <li><i class="fas fa-check"></i> 2x monthly 1-on-1 calls</li>
+                        <li><i class="fas fa-check"></i> Custom strategy development</li>
+                        <li><i class="fas fa-check"></i> Priority support channel</li>
+                        <li><i class="fas fa-check"></i> Trade copier access</li>
+                        <li><i class="fas fa-check"></i> Portfolio review</li>
+                        <li><i class="fas fa-check"></i> Early access to new content</li>
+                    </ul>
+                    <button class="btn btn-outline plan-btn">Contact Us</button>
+                </div>
+            </div>
+
+            <div class="guarantee reveal">
+                <i class="fas fa-shield-halved"></i>
+                <h3>7-Day Money-Back Guarantee</h3>
+                <p>Try any plan risk-free. If it's not for you within the first 7 days, we'll refund your payment — no questions asked.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="faq-header">
+                <span class="section-label">FAQ</span>
+                <h2 class="section-heading">Common <span class="gradient-text">Questions</span></h2>
+                <p class="section-desc">Everything you need to know before getting started.</p>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item reveal">
+                    <div class="faq-question">
+                        <span>Do I need trading experience to join?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Not at all! Our Starter plan is designed specifically for beginners. We'll teach you everything from the basics of chart reading to building your first strategy. Many of our most successful students started with zero experience.</div>
+                    </div>
+                </div>
+                <div class="faq-item reveal reveal-delay-1">
+                    <div class="faq-question">
+                        <span>What markets do you cover?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">We primarily focus on Forex pairs, but our strategies and analysis also cover gold (XAU/USD), major indices, and select cryptocurrencies. Our methodology works across all liquid markets.</div>
+                    </div>
+                </div>
+                <div class="faq-item reveal reveal-delay-2">
+                    <div class="faq-question">
+                        <span>How are trading signals delivered?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Signals are delivered via our private Discord channel and Telegram group in real time. Each signal includes the entry price, stop loss, and take profit levels with a clear risk-reward breakdown and trade rationale.</div>
+                    </div>
+                </div>
+                <div class="faq-item reveal reveal-delay-3">
+                    <div class="faq-question">
+                        <span>Can I cancel my subscription anytime?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Yes! There are no long-term contracts. You can cancel anytime from your account dashboard. If you cancel within the first 7 days, you'll receive a full refund as part of our money-back guarantee.</div>
+                    </div>
+                </div>
+                <div class="faq-item reveal reveal-delay-4">
+                    <div class="faq-question">
+                        <span>What makes The Blue Candle different?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">We focus on education first, not just signals. Our approach combines technical analysis with trading psychology and risk management. We don't promise overnight riches — we teach you how to build a sustainable, long-term trading career.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo" style="margin-bottom:4px;">
+                        <div class="logo-icon"><i class="fas fa-fire"></i></div>
+                        <span class="logo-text">Blue<span>Candle</span></span>
+                    </a>
+                    <p>Trading education, mentorship, and podcast conversations to help you master the financial markets.</p>
+                    <div class="footer-socials">
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-spotify"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-x-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="episodes.html">Episodes</a></li><li><a href="pricing.html">Mentorship</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+                <div class="footer-col"><h4>Services</h4><ul><li><a href="#">Weekly Podcast</a></li><li><a href="#">Trading Signals</a></li><li><a href="#">1-on-1 Mentorship</a></li><li><a href="#">Course Library</a></li></ul></div>
+                <div class="footer-col"><h4>Contact</h4><ul><li><a href="contact.html"><i class="fas fa-envelope" style="margin-right:8px;color:var(--blue-400)"></i>hello@bluecandle.co</a></li><li><a href="#"><i class="fas fa-map-pin" style="margin-right:8px;color:var(--blue-400)"></i>Lusaka, Zambia</a></li></ul></div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 The Blue Candle Podcast. All rights reserved.</p>
+                <div class="footer-bottom-links"><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Risk Disclaimer</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="shared.js"></script>
+    <script>
+        // Pricing toggle
+        document.querySelectorAll('.toggle-option').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.toggle-option').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const period = btn.dataset.period;
+                document.querySelectorAll('.amount').forEach(el => {
+                    el.textContent = el.dataset[period];
+                });
+            });
+        });
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+    </script>
+</body>
+</html>
