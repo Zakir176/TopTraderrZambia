@@ -617,14 +617,123 @@
         </div>
     </footer>
 
+    <script src="data.js"></script>
     <script src="shared.js"></script>
     <script>
-        // Play button toggle
+        // Load Episode Data
+        const urlParams = new URLSearchParams(window.location.search);
+        const epNum = parseInt(urlParams.get('ep')) || 47;
+        const episode = episodes.find(e => e.num === epNum) || episodes[0];
+
+        if (episode) {
+            document.title = `${episode.title} | The Blue Candle Podcast`;
+            document.getElementById('ep-label').textContent = `EP ${episode.num}${episode.num === episodes[0].num ? ' — LATEST' : ''}`;
+            document.getElementById('ep-title').textContent = episode.title;
+            document.getElementById('ep-duration').textContent = episode.duration;
+            document.getElementById('ep-date').textContent = episode.date;
+            document.getElementById('total-time').textContent = episode.duration;
+            
+            if (episode.notes) {
+                document.querySelector('.show-notes-content').innerHTML = episode.notes;
+            }
+
+            // Timestamps
+            const tsContainer = document.querySelector('.timestamps');
+            if (episode.timestamps && episode.timestamps.length > 0) {
+                tsContainer.style.display = 'block';
+                const tsList = tsContainer.querySelector('.timestamp-item'); // Template
+                const parent = tsList.parentElement;
+                parent.querySelectorAll('.timestamp-item').forEach(el => el.remove());
+                
+                episode.timestamps.forEach(ts => {
+                    const item = document.createElement('div');
+                    item.className = 'timestamp-item';
+                    item.innerHTML = `
+                        <span class="ts-time">${ts.time}</span>
+                        <span class="ts-label">${ts.label}</span>
+                    `;
+                    item.addEventListener('click', () => {
+                        seekToTime(ts.time);
+                    });
+                    parent.appendChild(item);
+                });
+            } else {
+                tsContainer.style.display = 'none';
+            }
+
+            // Related Episodes
+            const relatedContainer = document.querySelector('.sidebar-card:last-child');
+            const relatedList = episodes.filter(e => e.num !== episode.num).slice(0, 3);
+            let relatedHTML = '<h3>Related Episodes</h3>';
+            relatedList.forEach(re => {
+                relatedHTML += `
+                    <a href="episode.html?ep=${re.num}" class="related-ep">
+                        <span class="related-ep-num">EP ${re.num}</span>
+                        <div class="related-ep-info">
+                            <h4>${re.title}</h4>
+                            <span>${re.duration} · ${re.date}</span>
+                        </div>
+                    </a>
+                `;
+            });
+            relatedContainer.innerHTML = relatedHTML;
+        }
+
+        // --- Audio Player Logic ---
         const playBtn = document.getElementById('player-play-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const progressWrapper = document.getElementById('progress-wrapper');
+        const currentTimeEl = document.getElementById('current-time');
+        const totalTimeEl = document.getElementById('total-time');
+        const volumeSlider = document.querySelector('.volume-slider');
+        
         let playing = false;
+        let currentTimeSeconds = 1018; // Start at 16:58 as in original mockup
+        let totalDurationSeconds = parseTime(episode.duration);
+        let playInterval;
+
+        function parseTime(timeStr) {
+            const parts = timeStr.split(':').map(Number);
+            if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+            return parts[0] * 60 + parts[1];
+        }
+
+        function formatTime(seconds) {
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            const s = Math.floor(seconds % 60);
+            if (h > 0) return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            return `${m}:${s.toString().padStart(2, '0')}`;
+        }
+
+        function updateUI() {
+            const pct = (currentTimeSeconds / totalDurationSeconds) * 100;
+            progressBar.style.width = pct + '%';
+            currentTimeEl.textContent = formatTime(currentTimeSeconds);
+        }
+
+        function seekToTime(timeStr) {
+            currentTimeSeconds = parseTime(timeStr);
+            updateUI();
+        }
+
         playBtn.addEventListener('click', () => {
             playing = !playing;
             playBtn.innerHTML = playing ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play" style="margin-left:3px"></i>';
+            
+            if (playing) {
+                playInterval = setInterval(() => {
+                    currentTimeSeconds++;
+                    if (currentTimeSeconds >= totalDurationSeconds) {
+                        clearInterval(playInterval);
+                        playing = false;
+                        playBtn.innerHTML = '<i class="fas fa-play" style="margin-left:3px"></i>';
+                    }
+                    updateUI();
+                }, 1000);
+            } else {
+                clearInterval(playInterval);
+            }
         });
 
         // Speed buttons
@@ -632,14 +741,28 @@
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
+                // In a real app, this would set playbackRate
             });
         });
 
-        // Progress bar click
-        document.getElementById('progress-wrapper').addEventListener('click', function(e) {
-            const pct = (e.offsetX / this.offsetWidth) * 100;
-            document.getElementById('progress-bar').style.width = pct + '%';
+        // Progress bar click (Seeking)
+        progressWrapper.addEventListener('click', function(e) {
+            const pct = e.offsetX / this.offsetWidth;
+            currentTimeSeconds = Math.floor(pct * totalDurationSeconds);
+            updateUI();
         });
+
+        // Volume slider
+        volumeSlider.addEventListener('input', (e) => {
+            const vol = e.target.value;
+            const icon = document.querySelector('.volume-control i');
+            if (vol == 0) icon.className = 'fas fa-volume-mute';
+            else if (vol < 50) icon.className = 'fas fa-volume-low';
+            else icon.className = 'fas fa-volume-high';
+        });
+
+        // Initial UI Update
+        updateUI();
     </script>
 </body>
 </html>
