@@ -1,0 +1,12 @@
+# Project specific
+UI-guide/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# IDE/Editors
+.vscode/
+.idea/
+*.swp
+*.swo
