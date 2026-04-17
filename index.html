@@ -1320,79 +1320,13 @@
                     <h2 class="section-heading">Listen & <span class="gradient-text">Learn</span></h2>
                     <p class="section-desc">Deep-dive conversations with professional traders, market analysts, and industry experts.</p>
                 </div>
-                <a href="#" class="btn btn-outline" style="height: fit-content;">
+                <a href="episodes.html" class="btn btn-outline" style="height: fit-content;">
                     View All Episodes <i class="fas fa-arrow-right" style="font-size: 0.8rem;"></i>
                 </a>
             </div>
 
-            <div class="episodes-list">
-                <div class="episode-card reveal">
-                    <div class="ep-play"><i class="fas fa-play" style="margin-left: 2px;"></i></div>
-                    <div class="ep-info">
-                        <h3>The Psychology Behind Winning Trades</h3>
-                        <p class="ep-desc">Why 90% of trading success is mental — and how to build the mindset of a consistently profitable trader in any market condition.</p>
-                        <div class="ep-tags">
-                            <span class="ep-tag">Psychology</span>
-                            <span class="ep-tag">Mindset</span>
-                        </div>
-                    </div>
-                    <div class="ep-details">
-                        <div class="ep-number">EP 47</div>
-                        <div class="ep-time">48:32</div>
-                        <div class="ep-date">Apr 12, 2026</div>
-                    </div>
-                </div>
-
-                <div class="episode-card reveal reveal-delay-1">
-                    <div class="ep-play"><i class="fas fa-play" style="margin-left: 2px;"></i></div>
-                    <div class="ep-info">
-                        <h3>Reading Price Action Like a Pro</h3>
-                        <p class="ep-desc">Forget lagging indicators — learn to read naked charts and understand what the market is truly telling you with pure price action analysis.</p>
-                        <div class="ep-tags">
-                            <span class="ep-tag">Price Action</span>
-                            <span class="ep-tag">Technical</span>
-                        </div>
-                    </div>
-                    <div class="ep-details">
-                        <div class="ep-number">EP 46</div>
-                        <div class="ep-time">55:18</div>
-                        <div class="ep-date">Apr 5, 2026</div>
-                    </div>
-                </div>
-
-                <div class="episode-card reveal reveal-delay-2">
-                    <div class="ep-play"><i class="fas fa-play" style="margin-left: 2px;"></i></div>
-                    <div class="ep-info">
-                        <h3>Risk Management: The Art of Survival</h3>
-                        <p class="ep-desc">Position sizing, stop losses, and capital preservation — the unglamorous but essential foundation of every successful trading career.</p>
-                        <div class="ep-tags">
-                            <span class="ep-tag">Risk Management</span>
-                            <span class="ep-tag">Strategy</span>
-                        </div>
-                    </div>
-                    <div class="ep-details">
-                        <div class="ep-number">EP 45</div>
-                        <div class="ep-time">42:07</div>
-                        <div class="ep-date">Mar 29, 2026</div>
-                    </div>
-                </div>
-
-                <div class="episode-card reveal reveal-delay-3">
-                    <div class="ep-play"><i class="fas fa-play" style="margin-left: 2px;"></i></div>
-                    <div class="ep-info">
-                        <h3>From Demo to Live: Making the Leap</h3>
-                        <p class="ep-desc">The critical transition from paper trading to real money — how to handle emotions, risk, and expectations when your capital is on the line.</p>
-                        <div class="ep-tags">
-                            <span class="ep-tag">Beginner</span>
-                            <span class="ep-tag">Live Trading</span>
-                        </div>
-                    </div>
-                    <div class="ep-details">
-                        <div class="ep-number">EP 44</div>
-                        <div class="ep-time">38:45</div>
-                        <div class="ep-date">Mar 22, 2026</div>
-                    </div>
-                </div>
+            <div class="episodes-list" id="latest-episodes-list">
+                <!-- Dynamically populated -->
             </div>
         </div>
     </section>
@@ -1403,10 +1337,7 @@
             <div class="about-grid">
                 <div class="about-visual reveal">
                     <div class="about-image-wrapper">
-                        <div class="about-placeholder">
-                            <i class="fas fa-chart-candlestick" style="font-size: 4rem;"></i>
-                            <i class="fas fa-microphone-lines" style="font-size: 4rem; position: absolute; bottom: 30%; right: 20%;"></i>
-                        </div>
+                        <img src="assets/host.png" alt="Podcast Host" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="about-float-card">
                         <div class="afc-number">5+</div>
@@ -1630,7 +1561,41 @@
         </div>
     </footer>
 
+    <script src="data.js"></script>
+    <script src="shared.js"></script>
     <script>
+        // Populate Hero & Latest Episodes
+        const latestEp = episodes[0];
+        if (latestEp) {
+            document.querySelector('.hero-card .ep-label').textContent = `EP. ${latestEp.num} — LATEST`;
+            document.querySelector('.hero-card .ep-duration').textContent = latestEp.duration;
+            document.querySelector('.hero-card h3').textContent = latestEp.title;
+            document.querySelector('.hero-card p').textContent = latestEp.desc;
+        }
+
+        const latestList = episodes.slice(0, 4);
+        const listContainer = document.getElementById('latest-episodes-list');
+        listContainer.innerHTML = latestList.map((ep, i) => `
+            <div class="episode-card reveal ${i < 2 ? 'visible' : ''}" style="animation-delay: ${i * 0.1}s" onclick="window.location.href='episode.html?ep=${ep.num}'">
+                <div class="ep-play"><i class="fas fa-play" style="margin-left: 2px;"></i></div>
+                <div class="ep-info">
+                    <h3>${ep.title}</h3>
+                    <p class="ep-desc">${ep.desc}</p>
+                    <div class="ep-tags">
+                        ${ep.tags.map(tag => `<span class="ep-tag">${tag}</span>`).join('')}
+                    </div>
+                </div>
+                <div class="ep-details">
+                    <div class="ep-number">EP ${ep.num}</div>
+                    <div class="ep-time">${ep.duration}</div>
+                    <div class="ep-date">${ep.date}</div>
+                </div>
+            </div>
+        `).join('');
+
+        // Re-observe new elements
+        listContainer.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
+
         // ===== Waveform Bars Generator =====
         function generateWaveform(containerId, barCount) {
             const container = document.getElementById(containerId);
